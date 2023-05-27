@@ -1,0 +1,5 @@
+//exclude executeable
+*.exe
+
+//part 1
+part1/vendor
