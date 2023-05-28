@@ -6,5 +6,5 @@ build-grpc:
 
 run-grpc: build-grpc
 	@echo " > Running [grpc]..."
-	@cd ./cmd/grpc/ && grpc
+	@cd ./cmd/grpc/ && ./grpc
 	@echo " > Finished running [grpc]"

@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - go-tech-test
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    networks:
+      - go-tech-test
+
+  redis-datastore:
+    image: redis:latest
+    container_name: redis-datastore
+    ports:
+      - 6379:6379
+    networks:
+      - go-tech-test
+
+  go-grpc:
+    container_name: go-grpc
+    build:
+      context: .
+      dockerfile: ./docker/go_app.Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - go-tech-test
+  
+networks:
+  go-tech-test:
+    driver: bridge

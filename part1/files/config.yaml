@@ -1,0 +1,5 @@
+grpc_port : "8080"
+
+redis:
+  host: "redis-datastore:6379"
+  password: ""
