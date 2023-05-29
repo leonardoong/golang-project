@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"net"
 
@@ -25,20 +23,24 @@ func main() {
 		log.Fatalf("failed to init resource, error : %v\n", err)
 	}
 
-	err = res.RedisConn.Set(context.Background(), "test", "value", 0).Err()
-	if err != nil {
-		log.Fatalf("failed to set redis, error : %v\n", err)
-	}
+	// err = res.RedisConn.Set(context.Background(), "test", "value", 0).Err()
+	// if err != nil {
+	// 	log.Fatalf("failed to set redis, error : %v\n", err)
+	// }
 
-	val, err := res.RedisConn.Get(context.Background(), "test").Result()
-	if err != nil {
-		log.Fatalf("failed to get redis, error : %v\n", err)
-	}
-	fmt.Println("key", val)
+	// val, err := res.RedisConn.Get(context.Background(), "test").Result()
+	// if err != nil {
+	// 	log.Fatalf("failed to get redis, error : %v\n", err)
+	// }
+	// fmt.Println("key", val)
+
+	usecase := initUsecase(&res)
 
 	server := grpc.NewServer()
 
-	ohlcService := handlerOhlc.New()
+	ohlcService := handlerOhlc.New(
+		usecase.OhlcUsecase,
+	)
 	pb.RegisterOhlcServer(server, ohlcService)
 	reflection.Register(server)
 

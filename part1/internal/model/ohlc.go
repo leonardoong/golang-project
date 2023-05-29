@@ -1,5 +1,10 @@
 package model
 
+type InitDataResponse struct {
+	Success      bool   `json:"success"`
+	ErrorMessage string `json:"error_message"`
+}
+
 type GetSummaryRequest struct {
 	StockName string `json:"stock_name"`
 }

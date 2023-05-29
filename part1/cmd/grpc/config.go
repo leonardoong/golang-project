@@ -10,11 +10,16 @@ import (
 type Config struct {
 	GrpcPort string      `yaml:"grpc_port"`
 	Redis    RedisConfig `yaml:"redis"`
+	Kafka    KafkaConfig `yaml:"kafka"`
 }
 
 type RedisConfig struct {
 	Host     string `yaml:"host"`
 	Password string `yaml:"password"`
+}
+
+type KafkaConfig struct {
+	Broker string `yaml:"broker"`
 }
 
 func readConfig() (cfg Config, err error) {

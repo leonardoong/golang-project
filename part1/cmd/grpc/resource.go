@@ -1,18 +1,17 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/redis/go-redis/v9"
+
+	"github.com/Shopify/sarama"
 )
 
 type Resource struct {
-	RedisConn *redis.Client
+	RedisConn     *redis.Client
+	KafkaProducer sarama.SyncProducer
 }
 
 func initResource(cfg Config) (Resource, error) {
-	fmt.Printf("cfg == %v \n", cfg.Redis.Host)
-	fmt.Printf("cfg 2 == %v \n", cfg.Redis.Password)
 
 	redisConn := redis.NewClient(&redis.Options{
 		Addr:     cfg.Redis.Host,
@@ -20,7 +19,19 @@ func initResource(cfg Config) (Resource, error) {
 		DB:       0,
 	})
 
+	config := sarama.NewConfig()
+	config.Producer.RequiredAcks = sarama.WaitForAll
+	config.Producer.Retry.Max = 10
+	config.Producer.Return.Successes = true
+	config.Producer.MaxMessageBytes = 200000000
+
+	kafkaConn, err := sarama.NewSyncProducer([]string{cfg.Kafka.Broker}, config)
+	if err != nil {
+		panic(err)
+	}
+
 	return Resource{
-		RedisConn: redisConn,
+		RedisConn:     redisConn,
+		KafkaProducer: kafkaConn,
 	}, nil
 }
