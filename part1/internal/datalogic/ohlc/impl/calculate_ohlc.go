@@ -2,7 +2,6 @@ package impl
 
 import (
 	"context"
-	"fmt"
 	"math"
 	"part1/internal/model"
 	"strconv"
@@ -25,12 +24,24 @@ func (d *datalogic) CalculateOhlc(ctx context.Context, prevExist bool, prevOhlc 
 	} else {
 		res = prevOhlc
 
+		// in case type E/P already set redis first
+		if req.Quantity == "" {
+			price := int64(0)
+			if req.Price != "" {
+				price, err = strconv.ParseInt(req.Price, 10, 64)
+				if err != nil {
+					return
+				}
+				res.PreviousPrice = price
+				res.StockCode = req.StockCode
+			}
+		}
+
 		if req.Type == "E" || req.Type == "P" {
 			executionPrice := int64(0)
 			if req.ExecutionPrice != "" {
 				executionPrice, err = strconv.ParseInt(req.ExecutionPrice, 10, 64)
 				if err != nil {
-					fmt.Println("ERROR 1")
 					return
 				}
 			}
@@ -39,7 +50,6 @@ func (d *datalogic) CalculateOhlc(ctx context.Context, prevExist bool, prevOhlc 
 			if req.ExecutedQuantity != "" {
 				executedQty, err = strconv.ParseInt(req.ExecutedQuantity, 10, 64)
 				if err != nil {
-					fmt.Println("ERROR 2")
 					return
 				}
 			}
@@ -63,7 +73,6 @@ func (d *datalogic) CalculateOhlc(ctx context.Context, prevExist bool, prevOhlc 
 			if req.OrderNumber != "" {
 				orderNumber, err = strconv.ParseInt(req.OrderNumber, 10, 64)
 				if err != nil {
-					fmt.Println("ERROR 3")
 					return
 				}
 			}

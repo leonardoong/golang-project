@@ -12,7 +12,7 @@ import (
 func (d *datalogic) GetOhlcDataFromRedis(ctx context.Context, stockCode string) (exist bool, res model.Ohlc, err error) {
 	cache, err := d.redisRepo.HGetAll(ctx, fmt.Sprintf(constant.OhlcRedisKey, stockCode))
 	if err != nil {
-		return
+		return false, res, err
 	}
 	if len(cache) == 0 {
 		return false, res, err

@@ -13,7 +13,7 @@ func (h *handler) InitData(ctx context.Context, voidReq *empty.Empty) (resp *pb.
 
 	startTime := time.Now()
 
-	res, err := h.ohlcUsecase.InitData(ctx)
+	res, _ := h.ohlcUsecase.InitData(ctx)
 
 	return &pb.InitDataResponse{
 		ResponseHeader: &pb.ResponseHeader{

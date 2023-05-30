@@ -2,7 +2,6 @@ package module
 
 import (
 	"context"
-	"fmt"
 	"part1/internal/model"
 )
 
@@ -21,8 +20,6 @@ func (u *ohlcUsecase) ProcessOhlc(ctx context.Context, req model.Transaction) er
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("summary === %+v\n", summary)
 
 	err = u.ohlcDatalogic.StoreOhlcData(ctx, summary)
 
