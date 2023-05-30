@@ -12,7 +12,6 @@ type Resource struct {
 }
 
 func InitResource(cfg Config, skipProducer bool) (Resource, error) {
-
 	redisConn := redis.NewClient(&redis.Options{
 		Addr:     cfg.Redis.Host,
 		Password: cfg.Redis.Password,

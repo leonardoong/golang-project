@@ -6,8 +6,7 @@ import (
 )
 
 func (u ohlcUsecase) InitData(ctx context.Context) (resp model.InitDataResponse, err error) {
-
-	//1. read data from file
+	// 1. read data from file
 	err = u.fsDatalogic.GetDataFromJSON(ctx)
 	if err != nil {
 		return model.InitDataResponse{

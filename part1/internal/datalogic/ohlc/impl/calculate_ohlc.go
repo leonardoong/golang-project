@@ -81,9 +81,7 @@ func (d *datalogic) CalculateOhlc(ctx context.Context, prevExist bool, prevOhlc 
 				res.LastOrderNumber = orderNumber
 				res.ClosePrice = executionPrice
 			}
-
 		}
 	}
-
 	return res, err
 }

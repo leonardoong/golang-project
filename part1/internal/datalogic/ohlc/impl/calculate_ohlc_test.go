@@ -198,9 +198,7 @@ func Test_CalculateOhlc(t *testing.T) {
 		d := datalogic{
 			redisRepo: redisRepoMock,
 		}
-
 		t.Run(tt.name, func(t *testing.T) {
-
 			got, err := d.CalculateOhlc(context.Background(), tt.args.prevExist, tt.args.prevOhlc, tt.args.req)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("CalculateOhlc test failed. want: %+v, got: %+v", tt.want, got)

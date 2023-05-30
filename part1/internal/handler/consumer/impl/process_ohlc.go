@@ -7,12 +7,14 @@ import (
 )
 
 func (h *handler) ProcessOhlc(in []byte) {
-
 	req := model.Transaction{}
 	err := json.Unmarshal(in, &req)
 	if err != nil {
 		return
 	}
 
-	h.ohlcUsecase.ProcessOhlc(context.Background(), req)
+	err = h.ohlcUsecase.ProcessOhlc(context.Background(), req)
+	if err != nil {
+		return
+	}
 }

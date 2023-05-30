@@ -8,7 +8,6 @@ import (
 )
 
 func (h *handler) GetSummary(ctx context.Context, req *pb.GetSummaryRequest) (resp *pb.GetSummaryResponse, err error) {
-
 	startTime := time.Now()
 
 	summary, err := h.ohlcUsecase.GetSummary(ctx, model.GetSummaryRequest{
@@ -40,5 +39,5 @@ func (h *handler) GetSummary(ctx context.Context, req *pb.GetSummaryRequest) (re
 		AveragePrice:  summary.AveragePrice,
 	}
 
-	return
+	return resp, err
 }

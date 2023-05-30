@@ -45,7 +45,6 @@ func Test_StoreOhlc(t *testing.T) {
 			args:    req,
 			wantErr: true,
 			mock: func() {
-
 				redisRepoMock.
 					On("HSet", context.Background(), key, req.summary).
 					Return(int64(0), errors.New("err HSet")).
@@ -74,7 +73,6 @@ func Test_StoreOhlc(t *testing.T) {
 			if tt.mock != nil {
 				tt.mock()
 			}
-
 			err := d.StoreOhlcData(context.Background(), tt.args.summary)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("StoreOhlcData failed want err : %v, got err : %v", tt.wantErr, err)

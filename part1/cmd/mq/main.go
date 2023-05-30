@@ -127,7 +127,7 @@ func initConsumer(cfg *common.Config, usecase Usecase) {
 			if err := client.Consume(ctx, strings.Split(topics, ","), &consumer); err != nil {
 				log.Panicf("Error from consumer: %v", err)
 			}
-			// check if context was cancelled, signaling that the consumer should stop
+			// check if context was canceled, signaling that the consumer should stop
 			if ctx.Err() != nil {
 				return
 			}
@@ -147,7 +147,7 @@ func initConsumer(cfg *common.Config, usecase Usecase) {
 	for keepRunning {
 		select {
 		case <-ctx.Done():
-			log.Println("terminating: context cancelled")
+			log.Println("terminating: context canceled")
 			keepRunning = false
 		case <-sigterm:
 			log.Println("terminating: via signal")
@@ -161,7 +161,6 @@ func initConsumer(cfg *common.Config, usecase Usecase) {
 	if err = client.Close(); err != nil {
 		log.Panicf("Error closing client: %v", err)
 	}
-
 }
 
 func toggleConsumptionFlow(client sarama.ConsumerGroup, isPaused *bool) {
@@ -196,10 +195,6 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 
 // ConsumeClaim must start a consumer loop of ConsumerGroupClaim's Messages().
 func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
-	// NOTE:
-	// Do not move the code below to a goroutine.
-	// The `ConsumeClaim` itself is called within a goroutine, see:
-	// https://github.com/Shopify/sarama/blob/main/consumer_group.go#L27-L29
 	for {
 		select {
 		case message := <-claim.Messages():

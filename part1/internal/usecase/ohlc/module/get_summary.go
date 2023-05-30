@@ -7,7 +7,6 @@ import (
 )
 
 func (u *ohlcUsecase) GetSummary(ctx context.Context, req model.GetSummaryRequest) (resp model.GetSummaryResponse, err error) {
-
 	exist, ohlcSummary, err := u.ohlcDatalogic.GetOhlcDataFromRedis(ctx, req.StockName)
 	if err != nil {
 		return resp, err
