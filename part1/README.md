@@ -56,3 +56,4 @@ Created 5 containers using docker
 - Then client can hit `GetSummary` with request of Stock Name to get the latest summary of all the transaction from redis
 
 *note that you need to hit `InitData` and wait for processing first before `GetSummary` otherwise that will be no data return
+*you can check some screenshot in `/screenshot` folder and some diagram too
