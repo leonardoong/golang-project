@@ -5,9 +5,10 @@ import (
 	"fmt"
 
 	m "part2/model"
-	util "part2/util"
 )
 
+// refactor code from O(n * m * i) = O(n^3) time complexity
+// to n + m + i which is O(n) time complexity
 func ohlc(stockCodes []string, records []m.ChangeRecord, idxMember []m.IndexMember) map[string]m.Summary {
 	var result = map[string]m.Summary{}
 
@@ -28,13 +29,17 @@ func ohlc(stockCodes []string, records []m.ChangeRecord, idxMember []m.IndexMemb
 
 		if rec.Quantity == 0 {
 			tempSum.Prev = rec.Price
-			tempSum.Low = rec.Price
 		} else if rec.Quantity > 0 && tempSum.Open == 0 {
 			tempSum.Open = rec.Price
-		} else {
-			tempSum.Close = rec.Price
-			tempSum.High = util.Max(tempSum.High, rec.Price)
-			tempSum.Low = util.Min(tempSum.Low, rec.Price)
+		}
+
+		tempSum.Close = rec.Price
+		if tempSum.High < rec.Price {
+			tempSum.High = rec.Price
+		}
+
+		if tempSum.Low == 0 || tempSum.Low > rec.Price {
+			tempSum.Low = rec.Price
 		}
 
 		result[rec.StockCode] = tempSum
