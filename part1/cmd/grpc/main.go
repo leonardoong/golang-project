@@ -10,29 +10,20 @@ import (
 	handlerOhlc "part1/internal/handler/ohlc/impl"
 
 	pb "part1/internal/model/proto"
+
+	"part1/internal/common"
 )
 
 func main() {
-	cfg, err := readConfig()
+	cfg, err := common.ReadConfig()
 	if err != nil {
 		log.Fatalf("failed to read config, error : %v\n", err)
 	}
 
-	res, err := initResource(cfg)
+	res, err := common.InitResource(cfg, false)
 	if err != nil {
 		log.Fatalf("failed to init resource, error : %v\n", err)
 	}
-
-	// err = res.RedisConn.Set(context.Background(), "test", "value", 0).Err()
-	// if err != nil {
-	// 	log.Fatalf("failed to set redis, error : %v\n", err)
-	// }
-
-	// val, err := res.RedisConn.Get(context.Background(), "test").Result()
-	// if err != nil {
-	// 	log.Fatalf("failed to get redis, error : %v\n", err)
-	// }
-	// fmt.Println("key", val)
 
 	usecase := initUsecase(&res)
 

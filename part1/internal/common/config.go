@@ -1,4 +1,4 @@
-package main
+package common
 
 import (
 	"os"
@@ -19,10 +19,11 @@ type RedisConfig struct {
 }
 
 type KafkaConfig struct {
-	Broker string `yaml:"broker"`
+	Broker    string `yaml:"broker"`
+	Zookeeper string `yaml:"zookeeper"`
 }
 
-func readConfig() (cfg Config, err error) {
+func ReadConfig() (cfg Config, err error) {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)

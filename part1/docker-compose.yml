@@ -49,6 +49,18 @@ services:
     restart: unless-stopped
     depends_on:
       - kafka
+    volumes:
+      - ./subsetdata:/subsetdata
+
+  go-consumer:
+    container_name: go-consumer
+    build:
+      dockerfile: ./docker/go_consumer.Dockerfile
+    restart: unless-stopped
+    networks:
+      - go-tech-test
+    depends_on:
+      - kafka
   
 networks:
   go-tech-test:

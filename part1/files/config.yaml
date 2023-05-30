@@ -6,3 +6,4 @@ redis:
 
 kafka:
   broker: kafka:29092
+  zookeeper: zookeeper:2181
