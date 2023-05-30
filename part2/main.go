@@ -18,9 +18,7 @@ func ohlc(stockCodes []string, records []m.ChangeRecord, idxMember []m.IndexMemb
 			StockCode: stockCode,
 		}
 	}
-
 	for _, rec := range records {
-
 		if _, found := result[rec.StockCode]; !found {
 			result[rec.StockCode] = m.Summary{}
 		}
@@ -46,7 +44,6 @@ func ohlc(stockCodes []string, records []m.ChangeRecord, idxMember []m.IndexMemb
 	}
 
 	for _, idxCode := range idxMember {
-
 		if _, found := result[idxCode.StockCode]; !found {
 			result[idxCode.StockCode] = m.Summary{}
 		}
@@ -61,10 +58,18 @@ func ohlc(stockCodes []string, records []m.ChangeRecord, idxMember []m.IndexMemb
 }
 
 func main() {
-	x := []string{
+	r := ohlc(x, w, p)
+	for _, v := range r {
+		jss, _ := json.Marshal(v)
+		fmt.Println("summary: ", string(jss))
+	}
+}
+
+var (
+	x = []string{
 		"BBCA", "BBRI", "ASII", "GOTO",
 	}
-	w := []m.ChangeRecord{
+	w = []m.ChangeRecord{
 		{
 			StockCode: "BBCA",
 			Price:     8783,
@@ -170,7 +175,7 @@ func main() {
 			Quantity:  1,
 		},
 	}
-	p := []m.IndexMember{
+	p = []m.IndexMember{
 		{
 			StockCode: "BBCA",
 			IndexCode: "IHSG",
@@ -212,9 +217,4 @@ func main() {
 			IndexCode: "KOMPAS100",
 		},
 	}
-	r := ohlc(x, w, p)
-	for _, v := range r {
-		jss, _ := json.Marshal(v)
-		fmt.Println("summary: ", string(jss))
-	}
-}
+)
